@@ -17,9 +17,19 @@ var urlencodedParser = bodyParser.urlencoded({
 });
 
 io.on('connection', (socket) => {
+  socket.emit('welcomeMess',{
+    from: 'Admin',
+    message: 'welcome to the chat App'
+  });
+
+  socket.broadcast.emit('welcomeMess', {
+    from: 'Admin',
+    message: 'A new user just joined.'
+  })
 socket.on('createChat', (data) => {
   console.log('createChat', data);
-  io.emit('newChat', {
+
+  socket.broadcast.emit('newChat', {
     from: data.from,
     message: data.message,
     createdAt: new Date().getTime()
